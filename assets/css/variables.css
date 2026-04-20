@@ -1,0 +1,43 @@
+:root {
+  /* Color Palette - Luxury & Clean */
+  --primary: #b98c0b; /* Or / prestige */
+  --primary-hover: #9e7709;
+  --secondary: #29150e; /* Brun sombre / luxe */
+  --secondary-light: #442a1e;
+  --bg-color: #f8f9fa;
+  --surface-color: #ffffff;
+  --text-dark: #29150e;
+  --text-light: #666666;
+  --white: #ffffff;
+  --black: #000000;
+  --whatsapp-color: #25d366;
+  --whatsapp-hover: #1cad52;
+
+  /* Typography */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Outfit', sans-serif;
+  
+  /* Styling & Spacing */
+  --transition-fast: 0.2s ease-in-out;
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 16px;
+  --border-radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-blur: blur(12px);
+
+  /* Z-indexes */
+  --z-header: 1000;
+  --z-dropdown: 1010;
+  --z-overlay: 1050;
+}
