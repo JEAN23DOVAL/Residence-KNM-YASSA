@@ -13,7 +13,7 @@ Résidence KNM-YASSA offre des **studios et appartements entièrement meublés**
 ✅ **Confortable & Moderne** Studios et appartements spacieux avec équipements haut de gamme  
 ✅ **100% Sécurisé** Gardiennage 24h/24, accès contrôlé, vidéosurveillance  
 ✅ **Services Complets** WiFi Starlink, électricité stable 24h/24, eau chaude, ménage quotidien  
-✅ **Parking Privé** Espace de stationnement sécurisé pour chaque unité  
+✅ **Parking Sécurisé** Espace de stationnement partagé avec protection des vigiles BGFI Bank 24/7  
 ✅ **Flexibilité** Location à la nuit, à la semaine, au mois ou à l'année  
 ✅ **Localisation Stratégique** Centre-ville de Yaoundé, accès facile aux zones commerciales
 
@@ -78,10 +78,10 @@ Résidence KNM-YASSA offre des **studios et appartements entièrement meublés**
 - Eau chaude disponible 24h/24
 - Débit constant et régulé
 
-#### 🚗 **Parking Privé Sécurisé**
-- Espace de stationnement couvert ou en surface
-- Accès exclusif pour résidents
-- Gardiennage 24h/24
+#### 🚘 **Parking Sécurisé Partagé**
+- Stationnement à l'extérieur partagé avec la banque BGFI Bank
+- Protection 24/7 par les vigiles hautement formés de la sécurité BGFI Bank
+- Accès facile pour les résidents
 
 #### 🧹 **Ménage Quotidien Professionnel**
 - Nettoyage complet tous les jours
