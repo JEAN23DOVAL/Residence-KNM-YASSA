@@ -1,0 +1,180 @@
+# ════════════════════════════════════════════════════════════════
+# Résidence KNM YASSA - Advanced Cache & Compression Configuration
+# ════════════════════════════════════════════════════════════════
+
+# === 0. SERVICE WORKER SCOPE PERMISSION ===
+<IfModule mod_headers.c>
+  # Allow Service Worker at root to control entire site (/)
+  Header set Service-Worker-Allowed "/"
+</IfModule>
+
+# === 1. ENABLE GZIP COMPRESSION ===
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml
+  AddOutputFilterByType DEFLATE text/css text/javascript
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE application/xml+rss application/atom+xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+  
+  # Avoid double compression
+  BrowserMatch ^Mozilla/4 no-gzip
+  BrowserMatch ^Opera no-gzip
+  BrowserMatch "MSIE [1-6]" no-gzip
+</IfModule>
+
+# === 2. BROWSER CACHING WITH MOD_EXPIRES ===
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 months"
+
+  # ─────────────────────────────────────────
+  # HTML Pages - Never cache (always validate)
+  # ─────────────────────────────────────────
+  ExpiresByType text/html "access plus 0 seconds"
+  
+  # ─────────────────────────────────────────
+  # CSS & JavaScript - Aggressive caching (1 year)
+  # ─────────────────────────────────────────
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType application/x-javascript "access plus 1 year"
+  
+  # ─────────────────────────────────────────
+  # Images - Medium-term caching (6 months)
+  # ─────────────────────────────────────────
+  ExpiresByType image/jpeg "access plus 6 months"
+  ExpiresByType image/jpg "access plus 6 months"
+  ExpiresByType image/gif "access plus 6 months"
+  ExpiresByType image/png "access plus 6 months"
+  ExpiresByType image/webp "access plus 6 months"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  
+  # ─────────────────────────────────────────
+  # Fonts - Aggressive caching (1 year)
+  # ─────────────────────────────────────────
+  ExpiresByType font/ttf "access plus 1 year"
+  ExpiresByType font/otf "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType application/font-woff "access plus 1 year"
+  ExpiresByType application/x-font-ttf "access plus 1 year"
+  ExpiresByType application/x-font-opentype "access plus 1 year"
+  
+  # ─────────────────────────────────────────
+  # Icons & Media
+  # ─────────────────────────────────────────
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 3 months"
+  ExpiresByType video/webm "access plus 3 months"
+  ExpiresByType audio/mpeg "access plus 1 month"
+  
+  # ─────────────────────────────────────────
+  # Manifests & Service Worker
+  # ─────────────────────────────────────────
+  ExpiresByType application/manifest+json "access plus 1 week"
+  ExpiresByType text/plain "access plus 1 week"
+</IfModule>
+
+# === 3. CACHE CONTROL HEADERS - Granular Control ===
+<IfModule mod_headers.c>
+  # ─────────────────────────────────────────
+  # HTML Pages - Always validate
+  # ─────────────────────────────────────────
+  <FilesMatch "\.html?$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+    Header set Pragma "public"
+  </FilesMatch>
+  
+  # ─────────────────────────────────────────
+  # CSS, JS - Cache forever (versioned URLs)
+  # ─────────────────────────────────────────
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header set Pragma "public"
+  </FilesMatch>
+  
+  # ─────────────────────────────────────────
+  # Images - Cache long-term
+  # ─────────────────────────────────────────
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico)$">
+    Header set Cache-Control "public, max-age=15768000"
+    Header set Pragma "public"
+  </FilesMatch>
+  
+  # ─────────────────────────────────────────
+  # Fonts - Cache forever
+  # ─────────────────────────────────────────
+  <FilesMatch "\.(woff|woff2|ttf|otf|eot)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header set Pragma "public"
+  </FilesMatch>
+  
+  # ─────────────────────────────────────────
+  # Service Worker - Check daily
+  # ─────────────────────────────────────────
+  <FilesMatch "service-worker\.js$">
+    Header set Cache-Control "public, max-age=86400, must-revalidate"
+  </FilesMatch>
+  
+  # ─────────────────────────────────────────
+  # Add Vary Header for proper caching
+  # ─────────────────────────────────────────
+  <FilesMatch "\.(html|css|js|png|jpg|jpeg|gif|svg|woff|woff2)$">
+    Header append Vary: Accept-Encoding
+  </FilesMatch>
+</IfModule>
+
+# === 4. ETAG GENERATION ===
+<IfModule mod_fileetag.c>
+  FileETag MTime Size
+</IfModule>
+
+# === 5. HTTP/2 PUSH & OPTIMIZATION ===
+<IfModule mod_http2.c>
+  Protocols h2 h2c http/1.1
+  H2PushDiarySize 32
+</IfModule>
+
+# === 6. SECURITY HEADERS ===
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+</IfModule>
+
+# === 7. ERROR HANDLING ===
+ErrorDocument 404 "Ressource non trouvée (404)"
+ErrorDocument 500 "Erreur serveur interne (500)"
+ErrorDocument 503 "Service indisponible (503)"
+
+# === 8. PREVENT DIRECTORY LISTING ===
+<IfModule mod_autoindex.c>
+  Options -Indexes
+</IfModule>
+
+# === 9. REWRITE RULES (Optional) ===
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # Remove .html extension (optional)
+  # Uncomment if you want /page instead of /page.html
+  # RewriteCond %{REQUEST_FILENAME} !-f
+  # RewriteCond %{REQUEST_FILENAME} !-d
+  # RewriteRule ^([^\.]+)$ $1.html [NC, L]
+</IfModule>
+
+# === 10. PERFORMANCE OPTIMIZATIONS ===
+<IfModule mod_headers.c>
+  # Enable KeepAlive
+  Header set Connection "Keep-Alive"
+  
+  # Preconnect to external resources
+  <FilesMatch "\.(html)$">
+    Header add Link "<https://fonts.googleapis.com>; rel=preconnect, <https://fonts.gstatic.com>; rel=preconnect"
+  </FilesMatch>
+</IfModule>

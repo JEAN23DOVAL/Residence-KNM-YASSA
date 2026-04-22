@@ -1,4 +1,126 @@
+// ════════════════════════════════════════════════════════════════
+// 🚀 SERVICE WORKER & ADVANCED CACHE MANAGEMENT
+// ════════════════════════════════════════════════════════════════
+
+// Enregistrer le Service Worker pour multi-layer caching
+const registerServiceWorker = async () => {
+  if ('serviceWorker' in navigator) {
+    try {
+      const registration = await navigator.serviceWorker.register('service-worker.js', {
+        scope: '/'
+      });
+      console.log('✅ Service Worker v2.0 registered - Multi-layer caching active');
+
+      // Listen for updates
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'activated') {
+            console.log('🔄 Service Worker updated - Image/Font/Icon caching enhanced');
+            // Notify user
+            notifyUserOfUpdate();
+          }
+        });
+      });
+
+      // Check for updates every 6 hours
+      setInterval(() => {
+        registration.update();
+      }, 6 * 60 * 60 * 1000);
+    } catch (error) {
+      console.warn('⚠️ Service Worker registration failed:', error);
+    }
+  }
+};
+
+/**
+ * Monitor cache performance
+ */
+const monitorCacheHealth = async () => {
+  if (!('caches' in window)) return;
+
+  try {
+    const cacheNames = await caches.keys();
+    const stats = {};
+    
+    let totalSize = 0;
+    for (const cacheName of cacheNames) {
+      const cache = await caches.open(cacheName);
+      const keys = await cache.keys();
+      stats[cacheName] = keys.length;
+      totalSize += keys.length;
+    }
+    
+    console.log('📊 Cache Health:', stats, `(Total: ${totalSize} items)`);
+    
+    // Warn if cache gets too large
+    if (totalSize > 500) {
+      console.warn('⚠️ Cache size growing - Consider cleanup');
+    }
+  } catch (error) {
+    // Silently fail if indexedDB not available
+  }
+};
+
+/**
+ * Notify user of cache updates
+ */
+function notifyUserOfUpdate() {
+  // Only show on second visit
+  if (sessionStorage.getItem('visitCount') === null) {
+    sessionStorage.setItem('visitCount', '1');
+    return;
+  }
+
+  const msg = document.createElement('div');
+  msg.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #25d366;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  `;
+  msg.textContent = '🔄 Resources updated - Refresh for latest!';
+  document.body.appendChild(msg);
+  
+  setTimeout(() => msg.remove(), 4000);
+}
+
+// Enregistrer le SW au chargement
+registerServiceWorker();
+
+// Monitor cache health après le chargement
+window.addEventListener('load', () => {
+  setTimeout(monitorCacheHealth, 2000);
+});
+
 document.addEventListener("DOMContentLoaded", () => {
+  // ═══════════════════════════════════════════════════════════════
+  // 🚀 INITIALIZE LAZY LOADING FOR ON-DEMAND RESOURCE CACHING
+  // ═══════════════════════════════════════════════════════════════
+  if (typeof LazyResourceLoader !== 'undefined') {
+    const lazyLoader = new LazyResourceLoader({
+      threshold: 0.1,           // Start loading when 10% visible
+      rootMargin: '50px',       // Prefetch 50px before entering viewport
+      maxConcurrent: 3          // Max 3 concurrent downloads
+    });
+
+    lazyLoader.init();
+
+    // Watch for dynamically added content (e.g., Swiper slides)
+    const dynamicLoader = new DynamicLazyLoader(lazyLoader);
+    dynamicLoader.watchDynamicContent();
+
+    // Expose for debugging
+    window.lazyLoader = lazyLoader;
+    console.log('✅ Lazy Resource Loader active - Only loading visible content');
+  }
+
   // Load Header and Footer dynamically
   const loadIncludes = async () => {
     try {

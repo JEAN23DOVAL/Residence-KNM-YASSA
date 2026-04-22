@@ -1,0 +1,31 @@
+# Robots.txt for Résidence KNM YASSA
+# This file tells search engines which pages to crawl and which to ignore
+
+# Default rules for all user agents
+User-agent: *
+Allow: /
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /.trunk/
+Disallow: /.vscode/
+Disallow: /assets/js/
+Disallow: /assets/css/
+Disallow: /assets/images/
+Disallow: *.js
+Disallow: *.css
+Disallow: *?utm_
+
+# Prevent access to admin-like paths (if they exist)
+Disallow: /admin/
+Disallow: /wp-admin/
+Disallow: /cgi-bin/
+
+# Sitemap location (replace with actual domain)
+# IMPORTANT: Update this with your domain when you buy it
+# Sitemap: https://your-domain.com/sitemap.xml
+
+# Crawl delay (optional - time between requests)
+Crawl-delay: 1
+
+# Request rate (optional)
+Request-rate: 1/1s
