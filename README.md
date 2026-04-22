@@ -52,7 +52,7 @@ Résidence KNM-YASSA offre des **studios et appartements entièrement meublés**
 
 | Appartement | Prix/Nuit | Prix/Mois | Prix Taxé/Mois |
 |-------------|-----------|-----------|----------------|
-| **Apartment 1 Chambre** | 30,000 FCFA | 600,000 FCFA | ~720,000 FCFA |
+| **Apartment 1 Chambre** | 35,000 FCFA | 700,000 FCFA | ~840,000 FCFA |
 
 - **Tarifs dégressifs** pour locations prolongées (semaine, mois, année)
 - **Offres spéciales** pour contrats d'entreprise et groupes
